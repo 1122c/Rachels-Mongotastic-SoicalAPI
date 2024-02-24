@@ -4,7 +4,7 @@ const routes = require("./routes");
 
 const cwd = process.cwd();
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3003;
 const app = express();
 
 // below this just helps indicate what activity's server is running in the terminal.

@@ -1,4 +1,5 @@
-const { User, Thought } = require("../models");
+const User = require("../models/User");
+const Thought = require("../models/Thought");
 
 module.exports = {
   // get all users
@@ -42,27 +43,30 @@ module.exports = {
 
   // delete user + remove thoughts
   async deleteUser(req, res) {
+    const userToDelete = await User.findOne({ _id: req.params.userId });
     try {
-      const userToDelete = await User.findOneAndRemove({
-        _id: req.params.userId,
-      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
 
-      if (!userToDelete) {
-        return res.status(404).json({ message: "Aww, no such user exists" });
-      }
+    if (!userToDelete) {
+      return res.status(404).json({ message: "Aww, no such user exists" });
+    }
 
-      // remove thoughts associated with deleted user
-      const deletedThoughts = await Thought.deleteMany({
-        _id: { $in: userToDelete.thoughts },
-      });
+    // remove thoughts associated with deleted user
+    const deletedThoughts = await Thought.deleteMany({
+      _id: { $in: userToDelete.thoughts },
+    });
 
-      // remove user from other users' friend lists
-      await User.updateMany(
-        { friends: req.params.userId },
-        { $pull: { friends: req.params.userId } }
-      );
+    // remove user from other users' friend lists
+    await User.updateMany(
+      { friends: req.params.userId },
+      { $pull: { friends: req.params.userId } }
+    );
 
-      // sending a final response including details about the deletion
+    // sending a final response including details about the deletion
+    try {
       res.json({
         message:
           "User successfully deleted with their thoughts and removed from friends lists",
