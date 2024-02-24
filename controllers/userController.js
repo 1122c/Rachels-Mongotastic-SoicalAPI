@@ -74,4 +74,35 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  // Add a friend to the user's friend list
+  async addFriend(req, res) {
+    try {
+      const userId = req.params.userId;
+      const friendId = req.params.friendId;
+
+      // Check if friendId is trying to add itself
+      if (userId === friendId) {
+        return res
+          .status(400)
+          .json({ message: "Users cannot add themselves as a friend." });
+      }
+
+      // Find user and add friendId to friends list
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $addToSet: { friends: friendId } }, // Use $addToSet to prevent duplicates
+        { new: true, runValidators: true } // Return the updated user and run schema validators
+      ).populate("friends"); // Optionally populate the friends array to return updated data
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "No user found with this ID" });
+      }
+
+      res.json(updatedUser);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
 };
