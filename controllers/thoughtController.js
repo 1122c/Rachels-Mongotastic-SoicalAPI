@@ -54,6 +54,7 @@
        return res.status(500).json(err);
      }
    },
+
    async updateThought(req, res) {
      const dbThoughtData = await Thought.findOneAndUpdate(
        { _id: req.params.thoughtId },
@@ -75,11 +76,6 @@
          { $push: { reactions: req.body } },
          { runValidators: true, new: true }
        );
-       //req.body
-       // {
-       //   "reactionText": "yay",
-       //   "username": "Robby"
-       // }
        if (!dbThoughtData) {
          return res.status(404).json({ message: "No thought with this id!" });
        }
@@ -105,7 +101,7 @@
       console.log(err);
       res.status(500).json(err);
     }
-  },
+}
 };
 
- };
+
