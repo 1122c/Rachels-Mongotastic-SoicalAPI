@@ -41,6 +41,7 @@ UserSchema.virtual("friendCount").get(function () {
   return this.friends.length;
 });
 
+/// cast the userchema into a model
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
