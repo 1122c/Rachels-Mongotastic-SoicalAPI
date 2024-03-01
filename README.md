@@ -6,6 +6,7 @@ Built an API for a social network web application where users can share their th
 
 ## Video
 
+
 ## URL's
 
 Github Repo URL: https://github.com/1122c/Rachels-Mongotastic-SoicalAPI
@@ -13,7 +14,7 @@ Github Repo URL: https://github.com/1122c/Rachels-Mongotastic-SoicalAPI
 Video: See video above.
 
 ## Author
-Rachel Valenzuela
+Rachel 
 
 ## Resources
-Class, Tutoring, MongoDB and Mongoose ODM documentation
+Class, tutoring, MongoDB and Mongoose ODM documentation
